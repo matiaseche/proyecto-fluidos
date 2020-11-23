@@ -1,0 +1,68 @@
+* {
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+}
+
+html {
+  background-color: snow;
+}
+
+svg {
+  border: 2px solid #69359c;
+  background-color: white;
+}
+
+svg.map:hover {
+  cursor: grab;
+}
+
+svg.map:active {
+  cursor: grabbing;
+}
+
+h1 {
+  margin-bottom: 4px;
+}
+
+h2 {
+  text-align: left;
+}
+
+ul {
+  text-align: left;
+}
+
+li {
+  text-align: left;
+}
+
+p {
+  text-align: left;
+}
+
+path:hover {
+  cursor: pointer;
+}
+
+a:link {
+  color: #0513d6;
+}
+
+a:visited {
+  color: #0513d6;
+}
+
+a:focus {
+  border-bottom: 1px solid;
+  background: #7cf3f3;
+}
+
+a:hover {
+  border: 1px solid;
+  background: #7cf3f3;
+}
+
+a:active {
+  background: #4c56ee;
+  color: #7cf3f3;
+}
