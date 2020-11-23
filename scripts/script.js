@@ -35,6 +35,8 @@ const welcome = () => {
         .transition(1000)
         .style('opacity', 0)
         .remove()
+
+      stage2(name);
     })
 }
 
