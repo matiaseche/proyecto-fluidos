@@ -41,9 +41,41 @@ const welcome = () => {
 }
 
 const stage2 = (name) => {
-  d3.select('body')
-    .append('h1')
-    .text(name)
+  const body = d3.select('body')
+
+  body
+    .append('p')
+    .attr('class', 'welcome')
+    .text(`Bienvenido ${name}! Para ayudarte a entender sobre acuíferos, plantearemos un escenario y lo simularemos de manera que sea fácil entender. Pero antes, explicaremos unos conceptos claves:`)
+
+  body
+    .append('p')
+    .attr('class', 'welcome')
+    .text('El potencial hidráulico nos indica la dirección en la que se mueve el agua')
+ 
+  // Acá poner imagenes
+  const imgs_div = body.append('div')
+
+  imgs_div
+    .append('img')
+    .attr('src', 'imgs/imagen1.png')
+
+  imgs_div
+    .append('img')
+    .attr('src', 'imgs/imagen2.png')
+
+  imgs_div
+    .append('img')
+    .attr('src', 'imgs/imagen3.png')
+  
+  const p = body.append('p')
+    .attr('class', 'welcome')
+
+  p.append('tspan')
+    .text('El escenario es el siguiente:')
+
+  p.append('tspan')
+    .text('')
 }
 
 welcome();

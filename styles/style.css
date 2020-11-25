@@ -18,7 +18,7 @@ html {
 }
 
 .welcome {
-  font-size: 35px;
+  font-size: 25px;
   font-style: italic;
   color: #ffffff;
 }
@@ -29,17 +29,22 @@ html {
   color: #ffffff;
   width: 360px;
   height: 80px;
-  font-size: 35px;
+  font-size: 25px;
   font-style: italic;
 }
 
 input#name {
   width: 480px;
   height: 70px;
-  font-size: 35px;
+  font-size: 25px;
   font-style: italic;
 }
 
 .button:hover {
   cursor: pointer;
+}
+
+img {
+  padding: 2%;
+  max-width: 28%;
 }
