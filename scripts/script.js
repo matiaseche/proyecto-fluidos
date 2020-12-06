@@ -453,7 +453,21 @@ const drawChile = async (datos) => {
     .attr("cx", (d) => proyeccion([parseFloat(d['LATITUD']), parseFloat(d['LONGITUD'])])[0])
     .attr("cy", (d) => proyeccion([parseFloat(d['LATITUD']), parseFloat(d['LONGITUD'])])[1])
     .attr("r", 10)
-    .attr("fill", 'black');
+    .attr("fill", 'gray')
+    // .append((d,i) => i+1)
+    // .style('text-color', 'black');
+
+  const index = comunas
+    .selectAll('circles')
+    .data(datos)
+    .enter()
+    .append('text')
+    .attr("x", (d) => proyeccion([parseFloat(d['LATITUD']), parseFloat(d['LONGITUD'])])[0])
+    .attr("y", (d) => proyeccion([parseFloat(d['LATITUD']), parseFloat(d['LONGITUD'])])[1])
+    .style('text-color', 'black')
+    .attr('font-size', 15)
+    .attr('text-anchor', 'middle')
+    .text((_,i) => i+1)
 
   const zoomHanlder = (event) => {
     const transformation = event.transform;
@@ -461,8 +475,17 @@ const drawChile = async (datos) => {
     paths.attr("transform", transformation);
     paths.attr("stroke-width", 1/k);
     circles.attr("transform", transformation)
-      .attr("r", 10/k)
+      .attr("r", 10/k);
+    index.attr('transform', transformation)
+      .attr('font-size', 15/k);
   };
+
+  const text = d3.selectAll('p#acuifero')
+    .data(datos)
+    .enter()
+    .append('p')
+    .attr('class','welcome')
+    .text((d,i) => `${i+1} - ${d['NOMBRE']} - Material: ${d['MATERIAL']}`)
 
   const zoom = d3.zoom()
     .extent([
