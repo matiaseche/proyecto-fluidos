@@ -48,3 +48,16 @@ img {
   padding: 2%;
   max-width: 28%;
 }
+
+svg {
+  border: 2px solid #69359c;
+  background-color: white;
+}
+
+svg.map:hover {
+  cursor: grab;
+}
+
+svg.map:active {
+  cursor: grabbing;
+}
