@@ -50,7 +50,7 @@ const stage2 = (name) => {
   body
     .append('p')
     .attr('class', 'welcome')
-    .text(`Bienvenido ${name}! Para ayudarte a entender sobre acuíferos, plantearemos un escenario y lo simularemos de manera que sea fácil entender. Pero antes, explicaremos unos conceptos claves:`)
+    .text(`Bienvenid@ ${name}! Para ayudarte a entender sobre acuíferos, plantearemos un escenario y lo simularemos de manera que sea fácil entender. Pero antes, explicaremos unos conceptos claves:`)
 
   body
     .append('p')
@@ -80,15 +80,15 @@ const stage2 = (name) => {
     .append('br')
 
   p.append('tspan')
-    .text('Quieres hacer un pozo en tu casa, y con el presupuesto que tienes puedes hacerlo de profundidad H1')
+    .html('Quieres hacer un pozo en tu casa, y con el presupuesto que tienes puedes hacerlo de profundidad S' + '1'.sub() + '.')
     .append('br')
   
   p.append('tspan')
-    .text('Ademas tienes un vecino que ya tiene un pozo de profundidad H2 y que está a una distancia')
+    .html('Además, tienes un vecino que ya tiene un pozo de profundidad S' + '2'.sub()+', y que está a una distancia')
     .append('br')
 
   p.append('tspan')
-    .text('S2 de una empresa que bombea agua del acuífero. Te ayudaremos a calcular la distancia S1')
+    .html('r' + '2'.sub() + ' de una empresa que bombea agua del acuífero. Te ayudaremos a calcular la distancia r' + '1'.sub())
     .append('br')
 
   p.append('text')
@@ -96,12 +96,12 @@ const stage2 = (name) => {
     .append('br')
 
   p.append('text')
-    .text('la siguiente formula:')
+    .text('la siguiente fórmula:')
     .append('br')
 
   body.append('p')
     .attr('class', 'welcome')
-    .text('H1 - H2 = Q/(2*Pi*T) * ln(S2/S1)')
+    .html('s' + '1'.sub()+' - s' + '2'.sub()+ ' = Q/(2*Pi*T) * ln(r' + '2'.sub() + '/r' + '1'.sub() + ')')
 
 
   body.append('button')
@@ -170,15 +170,15 @@ const input = () => {
     .text('Calcular')
     .on('click', () => {
       let q = document.getElementById('caudal').value;
-      let h1 = document.getElementById('prof_vec').value;
-      let s1 = document.getElementById('dist_vec').value;
-      let h2 = document.getElementById('prof').value;
+      let s1 = document.getElementById('prof_vec').value;
+      let r1 = document.getElementById('dist_vec').value;
+      let s2 = document.getElementById('prof').value;
       let t = document.getElementById('transmitividad').value;
 
       console.log(q);
-      console.log(h2);
+      console.log(s2);
+      console.log(r1);
       console.log(s1);
-      console.log(h1);
       console.log(t);
 
       d3.selectAll('p')
@@ -196,11 +196,11 @@ const input = () => {
         .attr('opacity', 0)
         .remove();
 
-      calc(s1, h1, h2, q, t);
+      calc(r1, s1, s2, q, t);
     });
 }
 
-const calc = (s1, h1, h2, q, t) => {
+const calc = (r1, s1, s2, q, t) => {
   const margin = {
     top: 60,
     right: 30,
@@ -208,15 +208,15 @@ const calc = (s1, h1, h2, q, t) => {
     left: 40
   };
   
-  // (exp(h1 - h2) - exp(Q) + exp(2*Pi*T))s1 = s2
-  const s2 = Math.round((Math.exp(h1-h2) - Math.exp(q) + Math.exp(2*Math.PI*t))*s1);
+  // r2 = r1 * (exp((s1-s2)/(q/(2*pi*t))))
+  const r2 = Math.round(r1*Math.exp((s1 - s2)*2*Math.PI*t/q));
   const width = 1000;
   const height = 500;
   // const datosX = [];
   let datos = [
     {x: 0, y: 0},
-    {x: s1, y: h1},
-    {x: s2, y: h2}
+    {x: r1, y: s1},
+    {x: r2, y: s2}
   ];
   const depth = d3.max(datos.map((d) => d.y))*2;
 
