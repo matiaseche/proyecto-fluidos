@@ -40,6 +40,7 @@ const welcome = () => {
         .remove()
 
       stage2(name);
+      // calc();
     })
 }
 
@@ -123,48 +124,209 @@ const stage2 = (name) => {
         .remove()
 
       input();
-    })
+    });
 }
 
 const input = () => {
-  const body = d3.select('body')
-
-  let div = 
+  const body = d3.select('body');
 
   body.append('p')
     .attr('class', 'welcome')
-    .text('Caudal')
+    .text('Caudal');
 
   body.append('input')
-    .attr('id', 'caudal')
+    .attr('id', 'caudal');
 
   body.append('p')
     .attr('class', 'welcome')
-    .text('Profundidad pozo vecino')
+    .text('Profundidad pozo vecino');
 
   body.append('input')
-    .attr('id', 'prof_vec')
+    .attr('id', 'prof_vec');
 
   body.append('p')
     .attr('class', 'welcome')
-    .text('Distancia respecto a la empresa (vecino)')
+    .text('Distancia respecto a la empresa (vecino)');
 
   body.append('input')
-    .attr('id', 'dist_vec')
+    .attr('id', 'dist_vec');
 
   body.append('p')
     .attr('class', 'welcome')
-    .text('Profundidad del pozo que puedes costear')
+    .text('Profundidad del pozo que puedes costear');
   
   body.append('input')
-    .attr('id', 'prof')
+    .attr('id', 'prof');
 
   body.append('p')
     .attr('class', 'welcome')
-    .text('Transmitividad (o Conductividad Hidráulica)')
+    .text('Transmitividad (o Conductividad Hidráulica)');
 
   body.append('input')
-    .attr('id', 'transmtividad')
+    .attr('id', 'transmitividad');
+
+  body.append('button')
+    .attr('class', 'button')
+    .text('Calcular')
+    .on('click', () => {
+      let q = document.getElementById('caudal').value;
+      let h1 = document.getElementById('prof_vec').value;
+      let s1 = document.getElementById('dist_vec').value;
+      let h2 = document.getElementById('prof').value;
+      let t = document.getElementById('transmitividad').value;
+
+      console.log(q);
+      console.log(h2);
+      console.log(s1);
+      console.log(h1);
+      console.log(t);
+
+      d3.selectAll('p')
+        .transition(1000)
+        .attr('opacity', 0)
+        .remove();
+
+      d3.selectAll('input')
+        .transition(1000)
+        .attr('opacity', 0)
+        .remove();
+
+      d3.selectAll('button')
+        .transition(1000)
+        .attr('opacity', 0)
+        .remove();
+
+      calc(s1, h1, h2, q, t);
+    });
+}
+
+const calc = (s1, h1, h2, q, t) => {
+  const margin = {
+    top: 60,
+    right: 30,
+    bottom: 30,
+    left: 40
+  };
+  
+  // (exp(h1 - h2) - exp(Q) + exp(2*Pi*T))s1 = s2
+  const s2 = Math.round((Math.exp(h1-h2) - Math.exp(q) + Math.exp(2*Math.PI*t))*s1);
+  const width = 1000;
+  const height = 500;
+  // const datosX = [];
+  let datos = [
+    {x: 0, y: 0},
+    {x: s1, y: h1},
+    {x: s2, y: h2}
+  ];
+  const depth = d3.max(datos.map((d) => d.y))*2;
+
+  datos[0].y = depth;
+
+  const svg = d3.select('body')
+    .append('svg')
+  
+  svg
+    .attr('width', width)
+    .attr('height', height);
+
+  const escalaY = d3.scaleLinear()
+    .domain([depth, 0])
+    .range([height - margin.top - margin.bottom, 0]);
+
+  const ejeY = d3.axisLeft(escalaY);
+
+  const escalaX = d3.scaleBand()
+      .domain(datos.map((d) => d.x))
+      .rangeRound([0, width])
+      .padding(0.75);
+  
+  const ejeX = d3.axisTop(escalaX);
+
+  const contenedorEjeY = svg.append('g')
+    .attr("transform", `translate(${margin.left + 20}, ${margin.top + 20})`);
+
+  const contenedorEjeX = svg.append("g")
+    .attr("transform", `translate(${margin.left + 20}, ${margin.top + 20})`);
+
+  const contenedorBarras = svg.append("g")
+    .attr("transform", `translate(${margin.left + 20}, ${margin.top + 20})`);
+
+  contenedorEjeY
+    .transition()
+    .duration(1000)
+    .call(ejeY)
+    .selection()
+    .selectAll("line")
+    .attr("x1", width*2 - margin.right - margin.left)
+    .attr("stroke-dasharray", "5")
+    .attr("opacity", 0.5)
+    .attr('stroke', 'white')
+
+  contenedorEjeY
+    .selection()
+    .selectAll('path')
+    .attr('stroke', 'white')
+
+  contenedorEjeY
+    .selection()
+    .selectAll('text')
+    .attr('font-size', 15)
+    .attr('fill', 'white')
+  
+  contenedorEjeX
+    .transition()
+    .duration(1000)
+    .call(ejeX)
+    .selection()
+    .selectAll("text")
+    .attr("font-size", 15)
+    .attr('fill', 'white')
+
+  contenedorEjeX
+    .selection()
+    .selectAll('path')
+    .attr('stroke','white')
+
+  contenedorEjeX
+    .selection()
+    .selectAll('line')
+    .attr('stroke', 'white')
+    
+  contenedorBarras
+    .selectAll('rect')
+    .data(datos)
+    .join(
+      (enter) =>
+        enter
+          .append("rect")
+          .attr('fill', '#598fc3')
+          .attr("y", 0)
+          .attr("x", (d) => escalaX(d.x))
+          .attr("width", escalaX.bandwidth())
+          .attr("height", 0)
+          .transition()
+          .duration(1000)
+          .attr("height", (d) => escalaY(d.y))
+          // .attr("y", (d) => escalaY(d.y))
+          .selection(),
+    )
+
+  const xTitle = svg.append('text')
+    .attr('x', width/2)
+    .attr('y', 30)
+    .attr('class', 'welcome')
+    .attr('fill', 'white')
+    .style('text-anchor', 'middle')
+    .text('Distancia de la empresa (m)')
+
+  const yTitle = svg.append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('x', -height/2)
+    .attr('y', 20)
+    .attr('class', 'welcome')
+    .attr('fill', 'white')
+    .style('text-anchor', 'middle')
+    .text('Profundidad pozo (m)')
 }
 
 welcome();
