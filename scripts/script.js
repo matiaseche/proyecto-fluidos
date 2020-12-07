@@ -358,29 +358,28 @@ const calc = (r1, s1, s2, q, t) => {
 }
 
 const simulacion = async (r1, s1, s2, q, t) => {
-  const datos = await d3.csv('fluidos.csv');
+  let datos = await d3.csv('fluidos.csv');
 
-  let dist;
-  let curr = undefined;
-  let place;
-  datos.forEach((item) => {
+  datos.forEach((item, idx) => {
     curr = Math.sqrt(Math.pow(item['CAUDAL L/s'] - q,2)
       + Math.pow(item['TRANSMISIVIDAD (m^2/d)'] - t,2));
-    if (dist == undefined) {
-      dist = curr;
-      place = item['NOMBRE']
-    }
-    if (dist > curr) {
-      dist = curr;
-      place = item['NOMBRE']
-    }
+    datos[idx]['DIST'] = curr;
   })
 
-  console.log(`Lugar: ${place} - Distancia: ${dist}`);
-  drawChile(datos);
+  datos.sort((x,y) => {
+    return x['DIST'] - y['DIST']
+  });
+
+  drawChile(datos.slice(0, 5));
 }
 
 const drawChile = async (datos) => {
+
+  d3.selectAll('div').remove();
+  d3.selectAll('br').remove();
+
+  d3.select('body')
+    .append('br')
 
   const margin = {
     top: 60,
@@ -391,7 +390,6 @@ const drawChile = async (datos) => {
   const width = 1000;
   const height = 500;
 
-  const topeDensidad = 500;
   d3.select('body')
     .append('div')
     .attr('id', 'svg-container');
@@ -450,8 +448,8 @@ const drawChile = async (datos) => {
     .data(datos)
     .enter()
     .append("circle")
-    .attr("cx", (d) => proyeccion([parseFloat(d['LATITUD']), parseFloat(d['LONGITUD'])])[0])
-    .attr("cy", (d) => proyeccion([parseFloat(d['LATITUD']), parseFloat(d['LONGITUD'])])[1])
+    .attr("cx", (d) => proyeccion([parseFloat(d['LONGITUD']), parseFloat(d['LATITUD'])])[0])
+    .attr("cy", (d) => proyeccion([parseFloat(d['LONGITUD']), parseFloat(d['LATITUD'])])[1])
     .attr("r", 10)
     .attr("fill", 'gray')
     // .append((d,i) => i+1)
@@ -462,8 +460,8 @@ const drawChile = async (datos) => {
     .data(datos)
     .enter()
     .append('text')
-    .attr("x", (d) => proyeccion([parseFloat(d['LATITUD']), parseFloat(d['LONGITUD'])])[0])
-    .attr("y", (d) => proyeccion([parseFloat(d['LATITUD']), parseFloat(d['LONGITUD'])])[1])
+    .attr("x", (d) => proyeccion([parseFloat(d['LONGITUD']), parseFloat(d['LATITUD'])])[0])
+    .attr("y", (d) => proyeccion([parseFloat(d['LONGITUD']), parseFloat(d['LATITUD'])])[1])
     .style('text-color', 'black')
     .attr('font-size', 15)
     .attr('text-anchor', 'middle')
@@ -485,7 +483,7 @@ const drawChile = async (datos) => {
     .enter()
     .append('p')
     .attr('class','welcome')
-    .text((d,i) => `${i+1} - ${d['NOMBRE']} - Material: ${d['MATERIAL']}`)
+    .text((d,i) => `${i+1} - ${d['NOMBRE']}`)
 
   const zoom = d3.zoom()
     .extent([

@@ -1,3 +1,23 @@
-NOMBRE,TRANSMISIVIDAD (m^2/d),CAUDAL L/s,PERMEABILIDAD m/d,MATERIAL,LUGAR,LATITUD,LONGITUD
-Rio Putagan- Linares- Yerbas Buenas- Colbun ,760,20,250.56,Grava media,Maule,-71.756872,-35.745309
-Cauquenes ,390,20,120.96,Grava gruesa,Maule,-72.331012,-35.962134
+NOMBRE,TRANSMISIVIDAD,CAUDAL,PERMEABILIDAD,MATERIAL,PROFUNDIDAD,LATITUD,LONGITUD
+Embalse Lautaro - Valle Hermoso,17.5,10,29.77,Arena gruesa,,-27.98357961,-69.99830616
+Piedra Colgada,3,90,18.94,Arena media,,-27.31477214,-70.49499619
+La puerta,3,100,75.93,Grava gruesa,,-27.04552561,-69.67591466
+Paipote,17.5,130,184.45,Grava gruesa,,-27.42305166,-70.27870102
+Las Achiras Rio Laja,28.5,4,675,Grava muy limpia,,-37.18546504,-72.3910973
+Acuifero Mataquito (llanura del valle central),1000,,5.5,Arena fina,,-34.98508152,-71.34620003
+Rio Putagan - Linares - Yerbas Buenas - Colbun ,760,20,250.56,Grava media,,-35.78401206,-71.523541
+Cauquenes ,390,20,120.96,Grava gruesa,,-35.96189504,-72.3226001
+Osorno,300,1.55,0.864,"Limos, arcillas y arenas finas",,-40.57708265,-73.12817613
+Llanquihue,1525,21.49,45,Arenas gruesas y lentes de arenas,,-41.25334491,-73.00732974
+Valdivia,-2950,9.43,436.32,Arenas hasta gravas gruesas,,-39.8063881,-73.24315018
+Acui­fero de Pica - Tarapaca,22.5,6,0.4,Arena y mezcla de gravas,184,-20.48952258,-69.33085437
+Acui­fero de Pica - Tarapaca,2,3.33,0.4,Arena y mezcla de gravas,115,-20.48952258,-69.33085437
+Acui­fero de Pica - Tarapaca,1.5,2.37,0.4,Arena y mezcla de gravas,111,-20.48952258,-69.33085437
+Acui­fero de Pica - Tarapaca,1.5,1,0.4,Arena y mezcla de gravas,87.5,-20.48952258,-69.33085437
+Acui­fero de Pica - Tarapaca,185,4.75,0.4,Arena y mezcla de gravas,78,-20.48952258,-69.33085437
+Acui­fero de Pica - Tarapaca,1.2,2,0.4,Arena y mezcla de gravas,98,-20.48952258,-69.33085437
+Acui­fero de Pica - Tarapaca,6,3.25,0.4,Arena y mezcla de gravas,85.6,-20.48952258,-69.33085437
+Llanquigue. Glaciacion Sta Maria,225,8.5,0.00001,,,"-41.12018686704749,",-72.81569788
+Pelchuquin,405,15.5,0.000505,,,-39.62391662,-73.07744726
+Valdivia,525,23.5,0.000301,,,-39.823187,-73.258953
+Niebla,155,3.5,0.000105,,,-39.866072,-73.400814
